@@ -1,6 +1,8 @@
 SRCS		=	parsing.c							\
 				utils.c								\
 				simulation.c						\
+				libft.c								\
+				action.c							\
 				
 OBJS		=	$(addprefix ${OBJS_DIR}/, ${SRCS:.c=.o})
 
@@ -8,17 +10,13 @@ OBJS_DIR	=	objects
 SRCS_DIR	=	srcs
 
 INCLUDES	=	./includes/philo.h					\
-				./libft/includes/libft.h			\
 
 CC			= 	gcc
-CFLAGS		= 	-Wall -Wextra -Werror -g #-fsanitize=address
+CFLAGS		= 	-Wall -Wextra -Werror #-g -fsanitize=address
 
-LIBINCLUDES	=	-Iincludes -Ilibft/includes
+LIBINCLUDES	=	-Iincludes 
 
 EXECINCLUDES =	-pthreads
-
-LIBS		=	libft.a								\
-				${LIB}								\
 
 LIB			=	libphilo.a						
 
@@ -28,28 +26,24 @@ RM			=	rm -rf
 
 MKDIR		=	mkdir -p
 
-all:		libft ${EXEC}
+all:		${EXEC}
 
 ${OBJS_DIR}/%.o: 	${SRCS_DIR}/%.c	${INCLUDES} $(OBJDIRS)
-			${MKDIR} $(@D) $(DMPDIR)$(@D)
+			${MKDIR} $(@D)
 			${CC} ${CFLAGS} ${LIBINCLUDES} -c $< -o $@
 
 $(LIB):		${OBJS} ${INCLUDES}
 			ar rcs ${LIB} ${OBJS}
 
-libft:		${INCLUDES}
-			make -C libft
 
-${EXEC}:	${EXEC}.c ${LIBS}
-			$(CC) ${CFLAGS} ${LIBINCLUDES} ${EXEC}.c ${EXECINCLUDES} ${LIBS} -o ${EXEC}  
+${EXEC}:	${EXEC}.c ${LIB}
+			$(CC) ${CFLAGS} ${LIBINCLUDES} ${EXEC}.c ${EXECINCLUDES} ${LIB} -o ${EXEC}  
 
 clean:
 			${RM} ${OBJS} $(OBJS_DIR)
-			make clean -C libft
 
 fclean:		clean
-			make fclean -C libft
-			${RM} ${LIB} ${EXEC} ${LIBS} ${EXEC}.dSYM
+			${RM} ${LIB} ${EXEC} ${LIB} ${EXEC}.dSYM
 
 re:			fclean all
 

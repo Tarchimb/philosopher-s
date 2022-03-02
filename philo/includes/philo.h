@@ -6,7 +6,7 @@
 /*   By: tarchimb <tarchimb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 15:45:00 by tarchimb          #+#    #+#             */
-/*   Updated: 2022/02/12 16:25:25 by tarchimb         ###   ########.fr       */
+/*   Updated: 2022/03/01 13:36:31 by tarchimb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 # define PHILO_H
 
 # include <stdio.h>
-# include <libft.h>
 # include <unistd.h>
 # include <errno.h>
 # include <stdlib.h>
 # include <pthread.h>
 # include <sys/time.h>
+# include <string.h>
+# include <limits.h>
 
 # define TRUE 1
 # define FALSE 0
@@ -28,27 +29,52 @@
 
 typedef struct s_philo
 {
-	pthread_t	philo;
-	int			philo_position;
-	int			time_to_die;
-	int			time_to_eat;
-	int			time_to_sleep;
-	int			numbers_of_philo;
-	int			numbers_of_eats_needed;
-	int			available_fork;
+	pthread_t		philo;
+	int				philo_position;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				numbers_of_eats_needed;
+	int				alive;
+	pthread_mutex_t	mutex;
+	pthread_mutex_t	*mutex_right;
+	struct timeval	last_meal;
+	struct timeval	end;
+	struct timeval	start;
 }	t_philo;
+
+typedef struct s_prg
+{
+	t_philo	*philo;
+	int		numbers_of_philo;
+}	t_prg;
 
 /*****************Parsing******************/
 
-t_philo	*parsing(int argc, char **argv, int *error);
+int		parsing(int argc, char **argv, t_prg *prg);
 
 /******************Utils*******************/
 
 int		print_stderror(int error, char *s1);
 void	ft_free(void **content);
-long	get_time(void);
+long	new_time(struct timeval start);
+
+/******************Action*******************/
+
+void	sleeping(t_philo *philo);
+void	thinking(t_philo *philo);
+void	eating(t_philo *philo);
+void	take_fork(t_philo *philo, int action);
+void	died(t_prg *prg, int i);
+
+/***********libft function's***************/
+
+int		ft_atoi(const char *nptr);
+int		ft_isdigit(int c);
+int		ft_putstr_fd(char *s, int fd);
+int		ft_strlen(const char *s);
 
 /****************Simulation****************/
-// int		start_simulation(t_thread *t);
+int		start_simulation(t_prg *prg);
 
 #endif

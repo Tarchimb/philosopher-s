@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   utils_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxenceliboz <maxenceliboz@student.42.f    +#+  +:+       +#+        */
+/*   By: tarchimb <tarchimb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/03 08:29:13 by mliboz            #+#    #+#             */
-/*   Updated: 2022/01/31 10:31:22 by maxencelibo      ###   ########.fr       */
+/*   Created: 2022/02/28 14:15:15 by tarchimb          #+#    #+#             */
+/*   Updated: 2022/02/28 14:23:52 by tarchimb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include <philo.h>
 
 static int	ft_checkstr(const char *str, int *neg, int *str_i)
 {
@@ -56,43 +56,30 @@ int	ft_atoi(const char *nptr)
 	return (nb);
 }
 
-long long	ft_atoll(const char *nptr)
+int	ft_isdigit(int c)
 {
-	int				neg;
-	int				str_i;
-	long double		nb;
-
-	neg = 1;
-	str_i = 0;
-	nb = 0;
-	if (ft_checkstr(nptr, &neg, &str_i))
+	if (c >= 48 && c <= 57)
+		return (1);
+	else
 		return (0);
-	while (nptr[str_i] >= '0' && nptr[str_i] <= '9')
-	{
-		nb = nb * 10 + (nptr[str_i] - '0');
-		str_i++;
-	}
-	nb *= neg;
-	if (nb > LLONG_MAX || nb < LLONG_MIN)
-		return (0);
-	return (nb);
 }
 
-long double	ft_atold(const char *nptr)
+int	ft_putstr_fd(char *s, int fd)
 {
-	int				neg;
-	int				str_i;
-	long double		nb;
-
-	neg = 1;
-	str_i = 0;
-	nb = 0;
-	if (ft_checkstr(nptr, &neg, &str_i))
+	if (!s)
 		return (0);
-	while (nptr[str_i] >= '0' && nptr[str_i] <= '9')
-	{
-		nb = nb * 10 + (nptr[str_i] - '0');
-		str_i++;
-	}
-	return (nb * neg);
+	return (write(fd, s, ft_strlen(s)));
 }
+
+int	ft_strlen(const char *s)
+{
+	int		count;
+
+	count = 0;
+	if (!s)
+		return (0);
+	while (s[count] != 0)
+		count++;
+	return (count);
+}
+
