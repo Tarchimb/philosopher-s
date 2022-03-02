@@ -6,7 +6,7 @@
 /*   By: tarchimb <tarchimb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 15:45:00 by tarchimb          #+#    #+#             */
-/*   Updated: 2022/03/01 13:36:31 by tarchimb         ###   ########.fr       */
+/*   Updated: 2022/03/02 16:36:33 by tarchimb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,9 @@ typedef struct s_philo
 	int				time_to_sleep;
 	int				numbers_of_eats_needed;
 	int				alive;
-	pthread_mutex_t	mutex;
-	pthread_mutex_t	*mutex_right;
+	int				eating;
+	pthread_mutex_t	left_fork;
+	pthread_mutex_t	*right_fork;
 	struct timeval	last_meal;
 	struct timeval	end;
 	struct timeval	start;
@@ -58,13 +59,14 @@ int		parsing(int argc, char **argv, t_prg *prg);
 int		print_stderror(int error, char *s1);
 void	ft_free(void **content);
 long	new_time(struct timeval start);
+void	my_sleep(int to_sleep);
 
 /******************Action*******************/
 
 void	sleeping(t_philo *philo);
 void	thinking(t_philo *philo);
 void	eating(t_philo *philo);
-void	take_fork(t_philo *philo, int action);
+void	take_fork(t_philo *philo);
 void	died(t_prg *prg, int i);
 
 /***********libft function's***************/

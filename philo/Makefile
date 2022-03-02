@@ -1,8 +1,8 @@
 SRCS		=	parsing.c							\
 				utils.c								\
 				simulation.c						\
-				libft.c								\
 				action.c							\
+				time.c								\
 				
 OBJS		=	$(addprefix ${OBJS_DIR}/, ${SRCS:.c=.o})
 
@@ -12,7 +12,7 @@ SRCS_DIR	=	srcs
 INCLUDES	=	./includes/philo.h					\
 
 CC			= 	gcc
-CFLAGS		= 	-Wall -Wextra -Werror #-g -fsanitize=address
+CFLAGS		= 	-Wall -Wextra -Werror #-g -fsanitize=thread
 
 LIBINCLUDES	=	-Iincludes 
 
