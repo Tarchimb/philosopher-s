@@ -6,7 +6,7 @@
 /*   By: tarchimb <tarchimb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 21:14:08 by tarchimb          #+#    #+#             */
-/*   Updated: 2022/03/02 17:07:42 by tarchimb         ###   ########.fr       */
+/*   Updated: 2022/03/04 15:49:48 by tarchimb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	syntax_arg(char **argv)
 	{
 		while (argv[i][j])
 		{
-			if (argv[i][j] == '+')
+			if (argv[i][0] == '+')
 				j++;
 			if (!ft_isdigit((int)argv[i][j]))
 				return (FALSE);
@@ -87,5 +87,6 @@ int	parsing(int argc, char **argv, t_prg *prg)
 	while (++i < prg->numbers_of_philo)
 		if (!init_philo(&prg->philo[i], i, argv, prg->philo[0]))
 			return (0);
+	prg->time_to_die = prg->philo[0].time_to_die;
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: tarchimb <tarchimb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 15:45:00 by tarchimb          #+#    #+#             */
-/*   Updated: 2022/03/02 16:36:33 by tarchimb         ###   ########.fr       */
+/*   Updated: 2022/03/04 15:42:29 by tarchimb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,13 @@ typedef struct s_philo
 	int				numbers_of_eats_needed;
 	int				alive;
 	int				eating;
-	pthread_mutex_t	left_fork;
+	pthread_mutex_t	mutex;
+	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
+	pthread_mutex_t	mutex_numbers_of_eats_needed;
+	pthread_mutex_t	mutex_alive;
+	pthread_mutex_t	mutex_last_meal;
+	pthread_mutex_t	mutex_start;
 	struct timeval	last_meal;
 	struct timeval	end;
 	struct timeval	start;
@@ -47,6 +52,7 @@ typedef struct s_philo
 typedef struct s_prg
 {
 	t_philo	*philo;
+	int		time_to_die;
 	int		numbers_of_philo;
 }	t_prg;
 
@@ -60,6 +66,9 @@ int		print_stderror(int error, char *s1);
 void	ft_free(void **content);
 long	new_time(struct timeval start);
 void	my_sleep(int to_sleep);
+int		destroy_mutex(t_prg *prg);
+int		is_died(t_prg *prg, int i);
+int		is_alive(t_prg *prg);
 
 /******************Action*******************/
 

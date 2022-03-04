@@ -6,7 +6,7 @@
 /*   By: tarchimb <tarchimb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 16:35:55 by tarchimb          #+#    #+#             */
-/*   Updated: 2022/03/02 16:41:36 by tarchimb         ###   ########.fr       */
+/*   Updated: 2022/03/04 13:52:44 by tarchimb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,9 @@ void	my_sleep(int to_sleep)
 
 	i = 2;
 	gettimeofday(&start_time, NULL);
+	usleep(to_sleep * 0.95);
 	while (new_time(start_time) < (to_sleep / 1000))
-	{
-		if ((to_sleep / 100 / i) > 100)
-			usleep(to_sleep / 100 / i);
-		else
-		{
-			i /= 2;
-			usleep(to_sleep / 100 / i);
-		}
-		i *= 2;
-	}
+		usleep(200);
 }
 
 /*
