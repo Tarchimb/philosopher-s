@@ -6,7 +6,7 @@
 /*   By: tarchimb <tarchimb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 21:14:08 by tarchimb          #+#    #+#             */
-/*   Updated: 2022/03/06 22:26:42 by tarchimb         ###   ########.fr       */
+/*   Updated: 2022/03/06 22:38:38 by tarchimb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,13 @@ static int	init_philo(t_philo *philo, int i, char **argv, t_philo first)
 	philo->numbers_of_eats_needed = first.numbers_of_eats_needed;
 	philo->time_to_die = ft_atoi(argv[2]);
 	if (!philo->time_to_die)
-		return (print_stderror(0, "time_to_die need to be superior to 0"));
+		return (print_stderror(0, "Please enter a valid time_to_die"));
 	philo->time_to_eat = ft_atoi(argv[3]);
 	if (!philo->time_to_eat)
-		return (print_stderror(0, "time_to_eat need to be superior to 0"));
+		return (print_stderror(0, "Please enter a valid time_to_eat"));
 	philo->time_to_sleep = ft_atoi(argv[4]);
 	if (!philo->time_to_sleep)
-		return (print_stderror(0, "time_to_sleep need to be superior to 0"));
+		return (print_stderror(0, "Please enter a valid time_to_sleep"));
 	return (TRUE);
 }
 
@@ -76,7 +76,7 @@ int	parsing(int argc, char **argv, t_prg *prg)
 		return (print_stderror(0, strerror(errno)));
 	prg->numbers_of_philo = ft_atoi(argv[1]);
 	if (prg->numbers_of_philo <= 0)
-		return (print_stderror(0, "need at least 1 philosopher's"));
+		return (print_stderror(0, "Please enter valid number of philosophers"));
 	if (argc == 6)
 	{
 		prg->philo[0].numbers_of_eats_needed = ft_atoi(argv[5]);

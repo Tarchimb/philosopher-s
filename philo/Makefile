@@ -13,7 +13,7 @@ SRCS_DIR	=	srcs
 INCLUDES	=	./includes/philo.h					\
 
 CC			= 	gcc
-CFLAGS		= 	-Wall -Wextra -Werror -g -fsanitize=thread
+CFLAGS		= 	-Wall -Wextra -Werror
 
 LIBINCLUDES	=	-Iincludes 
 
