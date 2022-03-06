@@ -6,7 +6,7 @@
 /*   By: tarchimb <tarchimb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 07:59:25 by tarchimb          #+#    #+#             */
-/*   Updated: 2022/03/04 15:43:23 by tarchimb         ###   ########.fr       */
+/*   Updated: 2022/03/06 22:30:06 by tarchimb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,15 @@ int	destroy_mutex(t_prg *prg)
 	i = 0;
 	while (i < prg->numbers_of_philo)
 	{
-		pthread_mutex_destroy(&prg->philo[i].mutex);
-		pthread_mutex_destroy(&prg->philo[i].mutex_alive);
-		pthread_mutex_destroy(&prg->philo[i].mutex_last_meal);
-		pthread_mutex_destroy(&prg->philo[i].mutex_numbers_of_eats_needed);
+		if (pthread_mutex_destroy(&prg->philo[i].mutex) != 0)
+			return (print_stderror(-1, strerror(errno)));
+		if (pthread_mutex_destroy(&prg->philo[i].mutex_alive) != 0)
+			return (print_stderror(-1, strerror(errno)));
+		if (pthread_mutex_destroy(&prg->philo[i].mutex_last_meal) != 0)
+			return (print_stderror(-1, strerror(errno)));
+		if (pthread_mutex_destroy(&prg->philo[i].mutex_numbers_of_eats_needed)
+			!= 0)
+			return (print_stderror(-1, strerror(errno)));
 		i++;
 	}
 	return (0);

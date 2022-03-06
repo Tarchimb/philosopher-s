@@ -6,7 +6,7 @@
 /*   By: tarchimb <tarchimb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 10:45:49 by tarchimb          #+#    #+#             */
-/*   Updated: 2022/03/04 15:25:51 by tarchimb         ###   ########.fr       */
+/*   Updated: 2022/03/06 22:33:06 by tarchimb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,14 @@ void	take_fork(t_philo *philo)
 		pthread_mutex_unlock(&philo->mutex_start);
 	}
 	pthread_mutex_unlock(&philo->mutex_alive);
-	pthread_mutex_lock(philo->right_fork);
+	if (philo->number_of_philo > 1)
+		pthread_mutex_lock(philo->right_fork);
+	else
+	{
+		pthread_mutex_lock(&philo->mutex_alive);
+		philo->alive = 0;
+		pthread_mutex_unlock(&philo->mutex_alive);
+	}
 	pthread_mutex_lock(&philo->mutex_alive);
 	if (philo->alive == 1)
 	{

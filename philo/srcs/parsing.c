@@ -6,7 +6,7 @@
 /*   By: tarchimb <tarchimb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 21:14:08 by tarchimb          #+#    #+#             */
-/*   Updated: 2022/03/04 15:49:48 by tarchimb         ###   ########.fr       */
+/*   Updated: 2022/03/06 22:26:42 by tarchimb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static int	init_philo(t_philo *philo, int i, char **argv, t_philo first)
 	philo->alive = 1;
 	philo->philo_position = i + 1;
 	philo->eating = 0;
+	philo->number_of_philo = ft_atoi(argv[1]);
 	philo->numbers_of_eats_needed = first.numbers_of_eats_needed;
 	philo->time_to_die = ft_atoi(argv[2]);
 	if (!philo->time_to_die)

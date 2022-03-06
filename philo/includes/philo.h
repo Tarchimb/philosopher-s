@@ -6,7 +6,7 @@
 /*   By: tarchimb <tarchimb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 15:45:00 by tarchimb          #+#    #+#             */
-/*   Updated: 2022/03/04 15:42:29 by tarchimb         ###   ########.fr       */
+/*   Updated: 2022/03/06 22:25:29 by tarchimb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_philo
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				numbers_of_eats_needed;
+	int				number_of_philo;
 	int				alive;
 	int				eating;
 	pthread_mutex_t	mutex;
