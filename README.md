@@ -24,14 +24,7 @@ to launch it :
 
 `./philo [number_of_philo][time_to_die_in_ms][time_to_eat_in_ms][time_to_sleep_in_ms][number_of_eats_needed(optionnal)]`
 ## Screenshots
-![launch](./img/savescreen.mov)
-
-
-
-<video autoplay mute width="320" height="240" src="https://user-images.githubusercontent.com/93587515/157030569-f75b74e8-d978-4871-99a9-f44a802fd485.mov"/>
-
-
-
+![launch](./img/savescreen.gif)
 ## Project status
 The project is actually finished.
 ## Room for improvement
