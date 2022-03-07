@@ -6,7 +6,7 @@
 /*   By: tarchimb <tarchimb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 15:45:00 by tarchimb          #+#    #+#             */
-/*   Updated: 2022/03/06 22:25:29 by tarchimb         ###   ########.fr       */
+/*   Updated: 2022/03/07 12:35:01 by tarchimb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,11 @@
 
 # define TRUE 1
 # define FALSE 0
-# define EXIT_S 1
-# define EXIT_F 0
+# define EAT 0
+# define SLEEP 1
+# define THINK 2
+# define DIE 3
+# define FORK 4
 
 typedef struct s_philo
 {
@@ -45,6 +48,7 @@ typedef struct s_philo
 	pthread_mutex_t	mutex_alive;
 	pthread_mutex_t	mutex_last_meal;
 	pthread_mutex_t	mutex_start;
+	pthread_mutex_t	mutex_talk;
 	struct timeval	last_meal;
 	struct timeval	end;
 	struct timeval	start;
@@ -67,7 +71,6 @@ int		print_stderror(int error, char *s1);
 void	ft_free(void **content);
 long	new_time(struct timeval start);
 void	my_sleep(int to_sleep);
-int		destroy_mutex(t_prg *prg);
 int		is_died(t_prg *prg, int i);
 int		is_alive(t_prg *prg);
 
@@ -78,6 +81,7 @@ void	thinking(t_philo *philo);
 void	eating(t_philo *philo);
 void	take_fork(t_philo *philo);
 void	died(t_prg *prg, int i);
+void	talk(t_philo *philo, int msg);
 
 /***********libft function's***************/
 

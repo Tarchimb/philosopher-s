@@ -6,11 +6,32 @@
 /*   By: tarchimb <tarchimb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 15:42:57 by tarchimb          #+#    #+#             */
-/*   Updated: 2022/03/04 15:44:37 by tarchimb         ###   ########.fr       */
+/*   Updated: 2022/03/07 12:35:51 by tarchimb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
+
+void	talk(t_philo *philo, int msg)
+{
+	pthread_mutex_lock(&philo->mutex_talk);
+	if (msg == EAT)
+		printf("%ld %d is eating\n", new_time(philo->start),
+			philo->philo_position);
+	if (msg == THINK)
+		printf("%ld %d is thinking\n", new_time(philo->start),
+			philo->philo_position);
+	if (msg == SLEEP)
+		printf("%ld %d is sleeping\n", new_time(philo->start),
+			philo->philo_position);
+	if (msg == DIE)
+		printf("%ld %d died\n", new_time(philo->start),
+			philo->philo_position);
+	if (msg == FORK)
+		printf("%ld %d has taken a fork\n", new_time(philo->start),
+			philo->philo_position);
+	pthread_mutex_unlock(&philo->mutex_talk);
+}
 
 /*
 	Lock mutex, check if philo is dead, or if numbers_of_eats_needed == 0
@@ -62,7 +83,7 @@ int	is_alive(t_prg *prg)
 	while (++i < prg->numbers_of_philo)
 	{
 		if (pthread_join(prg->philo[i].philo, NULL) != 0)
-			return (print_stderror(0, strerror(errno)));
+			return (0);
 	}
 	return (1);
 }

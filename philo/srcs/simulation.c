@@ -6,7 +6,7 @@
 /*   By: tarchimb <tarchimb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 07:59:25 by tarchimb          #+#    #+#             */
-/*   Updated: 2022/03/06 22:30:06 by tarchimb         ###   ########.fr       */
+/*   Updated: 2022/03/07 12:29:00 by tarchimb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	*routine(void *philo_n)
 	return (philo_n);
 }
 
-int	destroy_mutex(t_prg *prg)
+static int	destroy_mutex(t_prg *prg)
 {
 	int	i;
 
@@ -49,37 +49,36 @@ int	destroy_mutex(t_prg *prg)
 	while (i < prg->numbers_of_philo)
 	{
 		if (pthread_mutex_destroy(&prg->philo[i].mutex) != 0)
-			return (print_stderror(-1, strerror(errno)));
+			return (-1);
 		if (pthread_mutex_destroy(&prg->philo[i].mutex_alive) != 0)
-			return (print_stderror(-1, strerror(errno)));
+			return (-1);
 		if (pthread_mutex_destroy(&prg->philo[i].mutex_last_meal) != 0)
-			return (print_stderror(-1, strerror(errno)));
+			return (-1);
 		if (pthread_mutex_destroy(&prg->philo[i].mutex_numbers_of_eats_needed)
 			!= 0)
-			return (print_stderror(-1, strerror(errno)));
+			return (-1);
 		i++;
 	}
-	return (0);
+	return (1);
 }
 
-int	init_mutex(t_prg *prg)
+static int	init_mutex(t_prg *prg, int i)
 {
-	int	i;
-
-	i = -1;
 	while (++i < prg->numbers_of_philo)
 	{
+		if (pthread_mutex_init(&prg->philo[i].mutex_talk, NULL) != 0)
+			return (-1);
 		if (pthread_mutex_init(&prg->philo[i].mutex, NULL) != 0)
-			return (print_stderror(-1, strerror(errno)));
+			return (-1);
 		if (pthread_mutex_init(&prg->philo[i].mutex_start, NULL) != 0)
-			return (print_stderror(-1, strerror(errno)));
+			return (-1);
 		if (pthread_mutex_init(&prg->philo[i].mutex_alive, NULL) != 0)
-			return (print_stderror(-1, strerror(errno)));
+			return (-1);
 		if (pthread_mutex_init(&prg->philo[i].mutex_last_meal, NULL) != 0)
-			return (print_stderror(-1, strerror(errno)));
+			return (-1);
 		if (pthread_mutex_init(&prg->philo[i].mutex_numbers_of_eats_needed,
 				NULL) != 0)
-			return (print_stderror(-1, strerror(errno)));
+			return (-1);
 		prg->philo[i].left_fork = &prg->philo[i].mutex;
 	}
 	i = -1;
@@ -87,7 +86,6 @@ int	init_mutex(t_prg *prg)
 		if (i < prg->numbers_of_philo - 1)
 			prg->philo[i].right_fork = &prg->philo[i + 1].mutex;
 	prg->philo[i].right_fork = &prg->philo[0].mutex;
-	i = -1;
 	return (0);
 }
 
@@ -103,16 +101,18 @@ int	start_simulation(t_prg *prg)
 	int	i;
 
 	i = -1;
-	init_mutex(prg);
+	if (init_mutex(prg, i) == -1)
+		return (-1);
 	while (++i < prg->numbers_of_philo)
 		gettimeofday(&prg->philo[i].last_meal, NULL);
 	i = -1;
 	while (++i < prg->numbers_of_philo)
 		if (pthread_create(&prg->philo[i].philo, NULL, &routine
 				, &prg->philo[i]) != 0)
-			return (print_stderror(0, strerror(errno)));
+			return (0);
 	is_alive(prg);
-	destroy_mutex(prg);
+	if (destroy_mutex(prg) == -1)
+		return (-1);
 	free(prg->philo);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: tarchimb <tarchimb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 10:45:49 by tarchimb          #+#    #+#             */
-/*   Updated: 2022/03/07 09:20:23 by tarchimb         ###   ########.fr       */
+/*   Updated: 2022/03/07 12:35:15 by tarchimb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ void	sleeping(t_philo *philo)
 	{
 		pthread_mutex_unlock(&philo->mutex_alive);
 		pthread_mutex_lock(&philo->mutex_start);
-		printf("%ld %d is sleeping\n", new_time(philo->start),
-			philo->philo_position);
+		talk(philo, SLEEP);
 		pthread_mutex_unlock(&philo->mutex_start);
 		my_sleep(philo->time_to_sleep * 1000);
 	}
@@ -41,8 +40,7 @@ void	take_fork(t_philo *philo)
 	pthread_mutex_lock(&philo->mutex_alive);
 	pthread_mutex_lock(&philo->mutex_start);
 	if (philo->alive == 1)
-		printf("%ld %d has taken a fork\n", new_time(philo->start),
-			philo->philo_position);
+		talk(philo, FORK);
 	pthread_mutex_unlock(&philo->mutex_start);
 	pthread_mutex_unlock(&philo->mutex_alive);
 	if (philo->number_of_philo > 1)
@@ -56,8 +54,7 @@ void	take_fork(t_philo *philo)
 	pthread_mutex_lock(&philo->mutex_alive);
 	pthread_mutex_lock(&philo->mutex_start);
 	if (philo->alive == 1)
-		printf("%ld %d has taken a fork\n", new_time(philo->start),
-			philo->philo_position);
+		talk(philo, FORK);
 	pthread_mutex_unlock(&philo->mutex_start);
 	pthread_mutex_unlock(&philo->mutex_alive);
 	eating(philo);
@@ -79,8 +76,7 @@ void	eating(t_philo *philo)
 		pthread_mutex_unlock(&philo->mutex_last_meal);
 		philo->eating = 1;
 		pthread_mutex_lock(&philo->mutex_start);
-		printf("%ld %d is eating\n", new_time(philo->start),
-			philo->philo_position);
+		talk(philo, EAT);
 		pthread_mutex_unlock(&philo->mutex_start);
 		my_sleep(philo->time_to_eat * 1000);
 		philo->eating = 0;
@@ -106,8 +102,7 @@ void	thinking(t_philo *philo)
 	if (philo->alive == 1)
 	{
 		pthread_mutex_lock(&philo->mutex_start);
-		printf("%ld %d is thinking\n", new_time(philo->start),
-			philo->philo_position);
+		talk(philo, THINK);
 		pthread_mutex_unlock(&philo->mutex_start);
 	}
 	pthread_mutex_unlock(&philo->mutex_alive);
@@ -131,7 +126,6 @@ void	died(t_prg *prg, int i)
 	}
 	my_sleep(100);
 	pthread_mutex_lock(&prg->philo[i].mutex_start);
-	printf("%ld %d died\n", new_time(prg->philo[i].start),
-		prg->philo[i].philo_position);
+	talk(&prg->philo[i], DIE);
 	pthread_mutex_unlock(&prg->philo[i].mutex_start);
 }

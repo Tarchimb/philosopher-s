@@ -6,7 +6,7 @@
 /*   By: tarchimb <tarchimb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 21:53:36 by tarchimb          #+#    #+#             */
-/*   Updated: 2022/03/04 15:35:30 by tarchimb         ###   ########.fr       */
+/*   Updated: 2022/03/07 12:29:51 by tarchimb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@ int	main(int argc, char **argv)
 			free(prg.philo);
 		return (0);
 	}
-	start_simulation(&prg);
+	if (start_simulation(&prg) == -1)
+	{
+		print_stderror(-1, "An error occured\n");
+		return (0);
+	}
 	return (EXIT_SUCCESS);
 }
