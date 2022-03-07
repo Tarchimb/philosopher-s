@@ -6,7 +6,7 @@
 /*   By: tarchimb <tarchimb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 10:45:49 by tarchimb          #+#    #+#             */
-/*   Updated: 2022/03/06 22:33:06 by tarchimb         ###   ########.fr       */
+/*   Updated: 2022/03/07 09:20:23 by tarchimb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,11 @@ void	take_fork(t_philo *philo)
 {
 	pthread_mutex_lock(philo->left_fork);
 	pthread_mutex_lock(&philo->mutex_alive);
+	pthread_mutex_lock(&philo->mutex_start);
 	if (philo->alive == 1)
-	{
-		pthread_mutex_lock(&philo->mutex_start);
 		printf("%ld %d has taken a fork\n", new_time(philo->start),
 			philo->philo_position);
-		pthread_mutex_unlock(&philo->mutex_start);
-	}
+	pthread_mutex_unlock(&philo->mutex_start);
 	pthread_mutex_unlock(&philo->mutex_alive);
 	if (philo->number_of_philo > 1)
 		pthread_mutex_lock(philo->right_fork);
@@ -56,16 +54,13 @@ void	take_fork(t_philo *philo)
 		pthread_mutex_unlock(&philo->mutex_alive);
 	}
 	pthread_mutex_lock(&philo->mutex_alive);
+	pthread_mutex_lock(&philo->mutex_start);
 	if (philo->alive == 1)
-	{
-		pthread_mutex_lock(&philo->mutex_start);
 		printf("%ld %d has taken a fork\n", new_time(philo->start),
 			philo->philo_position);
-		pthread_mutex_unlock(&philo->mutex_start);
-	}
+	pthread_mutex_unlock(&philo->mutex_start);
 	pthread_mutex_unlock(&philo->mutex_alive);
 	eating(philo);
-	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
 }
 
@@ -97,6 +92,7 @@ void	eating(t_philo *philo)
 			philo->alive = 0;
 		pthread_mutex_unlock(&philo->mutex_alive);
 		pthread_mutex_unlock(&philo->mutex_numbers_of_eats_needed);
+		pthread_mutex_unlock(philo->left_fork);
 	}
 	pthread_mutex_unlock(&philo->mutex_alive);
 }
