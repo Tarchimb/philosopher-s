@@ -24,13 +24,7 @@ to launch it :
 
 `./philo [number_of_philo][time_to_die_in_ms][time_to_eat_in_ms][time_to_sleep_in_ms][number_of_eats_needed(optionnal)]`
 ## Screenshots
-To launch it :
-
-![launch](./img/launching)
-
-Running :
-
-![run](./img/running)
+![launch](./img/savescreen.mov)
 
 ## Project status
 
