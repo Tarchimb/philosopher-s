@@ -6,7 +6,7 @@
 /*   By: tarchimb <tarchimb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 10:45:49 by tarchimb          #+#    #+#             */
-/*   Updated: 2022/03/07 12:35:15 by tarchimb         ###   ########.fr       */
+/*   Updated: 2022/03/09 13:13:30 by tarchimb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,11 @@
 */
 void	sleeping(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->mutex_alive);
-	if (philo->alive == 1)
+	if (is_alive(philo) == TRUE)
 	{
-		pthread_mutex_unlock(&philo->mutex_alive);
-		pthread_mutex_lock(&philo->mutex_start);
 		talk(philo, SLEEP);
-		pthread_mutex_unlock(&philo->mutex_start);
 		my_sleep(philo->time_to_sleep * 1000);
 	}
-	pthread_mutex_unlock(&philo->mutex_alive);
 }
 
 /*
@@ -37,12 +32,8 @@ void	sleeping(t_philo *philo)
 void	take_fork(t_philo *philo)
 {
 	pthread_mutex_lock(philo->left_fork);
-	pthread_mutex_lock(&philo->mutex_alive);
-	pthread_mutex_lock(&philo->mutex_start);
-	if (philo->alive == 1)
+	if (is_alive(philo) == TRUE)
 		talk(philo, FORK);
-	pthread_mutex_unlock(&philo->mutex_start);
-	pthread_mutex_unlock(&philo->mutex_alive);
 	if (philo->number_of_philo > 1)
 		pthread_mutex_lock(philo->right_fork);
 	else
@@ -51,13 +42,10 @@ void	take_fork(t_philo *philo)
 		philo->alive = 0;
 		pthread_mutex_unlock(&philo->mutex_alive);
 	}
-	pthread_mutex_lock(&philo->mutex_alive);
-	pthread_mutex_lock(&philo->mutex_start);
-	if (philo->alive == 1)
+	if (is_alive(philo) == TRUE)
 		talk(philo, FORK);
-	pthread_mutex_unlock(&philo->mutex_start);
-	pthread_mutex_unlock(&philo->mutex_alive);
 	eating(philo);
+	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
 }
 
@@ -67,19 +55,13 @@ void	take_fork(t_philo *philo)
 */
 void	eating(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->mutex_alive);
-	if (philo->alive == 1)
+	if (is_alive(philo) == TRUE)
 	{
-		pthread_mutex_unlock(&philo->mutex_alive);
 		pthread_mutex_lock(&philo->mutex_last_meal);
 		gettimeofday(&philo->last_meal, NULL);
 		pthread_mutex_unlock(&philo->mutex_last_meal);
-		philo->eating = 1;
-		pthread_mutex_lock(&philo->mutex_start);
 		talk(philo, EAT);
-		pthread_mutex_unlock(&philo->mutex_start);
 		my_sleep(philo->time_to_eat * 1000);
-		philo->eating = 0;
 		pthread_mutex_lock(&philo->mutex_numbers_of_eats_needed);
 		if (philo->numbers_of_eats_needed != -1)
 			philo->numbers_of_eats_needed -= 1;
@@ -88,9 +70,7 @@ void	eating(t_philo *philo)
 			philo->alive = 0;
 		pthread_mutex_unlock(&philo->mutex_alive);
 		pthread_mutex_unlock(&philo->mutex_numbers_of_eats_needed);
-		pthread_mutex_unlock(philo->left_fork);
 	}
-	pthread_mutex_unlock(&philo->mutex_alive);
 }
 
 /*
@@ -98,14 +78,8 @@ void	eating(t_philo *philo)
 */
 void	thinking(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->mutex_alive);
-	if (philo->alive == 1)
-	{
-		pthread_mutex_lock(&philo->mutex_start);
+	if (is_alive(philo) == TRUE)
 		talk(philo, THINK);
-		pthread_mutex_unlock(&philo->mutex_start);
-	}
-	pthread_mutex_unlock(&philo->mutex_alive);
 }
 
 /*
@@ -117,15 +91,12 @@ void	died(t_prg *prg, int i)
 	int	j;
 
 	j = -1;
-	(void)i;
 	while (++j < prg->numbers_of_philo)
 	{
 		pthread_mutex_lock(&prg->philo[j].mutex_alive);
 		prg->philo[j].alive = 0;
 		pthread_mutex_unlock(&prg->philo[j].mutex_alive);
 	}
-	my_sleep(100);
-	pthread_mutex_lock(&prg->philo[i].mutex_start);
+	my_sleep(800);
 	talk(&prg->philo[i], DIE);
-	pthread_mutex_unlock(&prg->philo[i].mutex_start);
 }

@@ -6,7 +6,7 @@
 /*   By: tarchimb <tarchimb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 07:59:25 by tarchimb          #+#    #+#             */
-/*   Updated: 2022/03/07 12:29:00 by tarchimb         ###   ########.fr       */
+/*   Updated: 2022/03/09 12:53:07 by tarchimb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,9 @@ static int	destroy_mutex(t_prg *prg)
 	i = 0;
 	while (i < prg->numbers_of_philo)
 	{
-		if (pthread_mutex_destroy(&prg->philo[i].mutex) != 0)
+		if (pthread_mutex_destroy(&prg->philo[i].fork) != 0)
+			return (-1);
+		if (pthread_mutex_destroy(&prg->philo[i].mutex_talk) != 0)
 			return (-1);
 		if (pthread_mutex_destroy(&prg->philo[i].mutex_alive) != 0)
 			return (-1);
@@ -68,9 +70,7 @@ static int	init_mutex(t_prg *prg, int i)
 	{
 		if (pthread_mutex_init(&prg->philo[i].mutex_talk, NULL) != 0)
 			return (-1);
-		if (pthread_mutex_init(&prg->philo[i].mutex, NULL) != 0)
-			return (-1);
-		if (pthread_mutex_init(&prg->philo[i].mutex_start, NULL) != 0)
+		if (pthread_mutex_init(&prg->philo[i].fork, NULL) != 0)
 			return (-1);
 		if (pthread_mutex_init(&prg->philo[i].mutex_alive, NULL) != 0)
 			return (-1);
@@ -79,13 +79,13 @@ static int	init_mutex(t_prg *prg, int i)
 		if (pthread_mutex_init(&prg->philo[i].mutex_numbers_of_eats_needed,
 				NULL) != 0)
 			return (-1);
-		prg->philo[i].left_fork = &prg->philo[i].mutex;
+		prg->philo[i].left_fork = &prg->philo[i].fork;
 	}
 	i = -1;
 	while (++i < prg->numbers_of_philo - 1)
 		if (i < prg->numbers_of_philo - 1)
-			prg->philo[i].right_fork = &prg->philo[i + 1].mutex;
-	prg->philo[i].right_fork = &prg->philo[0].mutex;
+			prg->philo[i].right_fork = &prg->philo[i + 1].fork;
+	prg->philo[i].right_fork = &prg->philo[0].fork;
 	return (0);
 }
 
@@ -110,9 +110,8 @@ int	start_simulation(t_prg *prg)
 		if (pthread_create(&prg->philo[i].philo, NULL, &routine
 				, &prg->philo[i]) != 0)
 			return (0);
-	is_alive(prg);
+	alive(prg);
 	if (destroy_mutex(prg) == -1)
-		return (-1);
-	free(prg->philo);
+		return (0);
 	return (1);
 }

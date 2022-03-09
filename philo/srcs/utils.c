@@ -6,7 +6,7 @@
 /*   By: tarchimb <tarchimb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 14:15:15 by tarchimb          #+#    #+#             */
-/*   Updated: 2022/03/02 17:08:18 by tarchimb         ###   ########.fr       */
+/*   Updated: 2022/03/09 07:23:16 by tarchimb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	ft_atoi(const char *nptr)
 		str_i++;
 	}
 	nb *= neg;
-	if (nb > INT_MAX || nb < INT_MIN)
+	if (nb > 2147483647 || nb < -2147483648)
 		return (0);
 	return (nb);
 }
@@ -80,6 +80,5 @@ int	print_stderror(int error, char *s1)
 {
 	ft_putstr_fd(s1, 2);
 	ft_putstr_fd("\n", 2);
-	errno = 0;
 	return (error);
 }

@@ -6,7 +6,7 @@
 /*   By: tarchimb <tarchimb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 21:14:08 by tarchimb          #+#    #+#             */
-/*   Updated: 2022/03/06 22:38:38 by tarchimb         ###   ########.fr       */
+/*   Updated: 2022/03/09 12:43:56 by tarchimb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ static int	init_philo(t_philo *philo, int i, char **argv, t_philo first)
 {
 	philo->alive = 1;
 	philo->philo_position = i + 1;
-	philo->eating = 0;
 	philo->number_of_philo = ft_atoi(argv[1]);
 	philo->numbers_of_eats_needed = first.numbers_of_eats_needed;
 	philo->time_to_die = ft_atoi(argv[2]);
@@ -73,7 +72,7 @@ int	parsing(int argc, char **argv, t_prg *prg)
 		return (print_stderror(-1, "Bad syntax"));
 	prg->philo = malloc(sizeof(t_philo) * ft_atoi(argv[1]));
 	if (!prg->philo)
-		return (print_stderror(0, strerror(errno)));
+		return (print_stderror(0, "Malloc error"));
 	prg->numbers_of_philo = ft_atoi(argv[1]);
 	if (prg->numbers_of_philo <= 0)
 		return (print_stderror(0, "Please enter valid number of philosophers"));

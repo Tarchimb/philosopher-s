@@ -13,7 +13,7 @@ SRCS_DIR	=	srcs
 INCLUDES	=	./includes/philo.h					\
 
 CC			= 	gcc
-CFLAGS		= 	-Wall -Wextra -Werror
+CFLAGS		= 	-Wall -Wextra -Werror #-fsanitize=thread
 
 LIBINCLUDES	=	-Iincludes 
 
@@ -37,7 +37,7 @@ $(LIB):		${OBJS} ${INCLUDES}
 			ar rcs ${LIB} ${OBJS}
 
 
-${EXEC}:	${EXEC}.c ${LIB}
+${EXEC}:	${EXEC}.c ${LIB} Makefile
 			$(CC) ${CFLAGS} ${LIBINCLUDES} ${EXEC}.c ${EXECINCLUDES} ${LIB} -o ${EXEC}  
 
 clean:
@@ -48,4 +48,4 @@ fclean:		clean
 
 re:			fclean all
 
-.PHONY: 	all clean fclean re libft object
+.PHONY: 	all clean fclean re object
