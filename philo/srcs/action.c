@@ -6,7 +6,7 @@
 /*   By: tarchimb <tarchimb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 10:45:49 by tarchimb          #+#    #+#             */
-/*   Updated: 2022/03/09 13:13:30 by tarchimb         ###   ########.fr       */
+/*   Updated: 2022/03/10 10:08:55 by tarchimb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	sleeping(t_philo *philo)
 	if (is_alive(philo) == TRUE)
 	{
 		talk(philo, SLEEP);
-		my_sleep(philo->time_to_sleep * 1000);
+		my_sleep(philo, philo->time_to_sleep * 1000);
 	}
 }
 
@@ -61,7 +61,7 @@ void	eating(t_philo *philo)
 		gettimeofday(&philo->last_meal, NULL);
 		pthread_mutex_unlock(&philo->mutex_last_meal);
 		talk(philo, EAT);
-		my_sleep(philo->time_to_eat * 1000);
+		my_sleep(philo, philo->time_to_eat * 1000);
 		pthread_mutex_lock(&philo->mutex_numbers_of_eats_needed);
 		if (philo->numbers_of_eats_needed != -1)
 			philo->numbers_of_eats_needed -= 1;
@@ -97,6 +97,6 @@ void	died(t_prg *prg, int i)
 		prg->philo[j].alive = 0;
 		pthread_mutex_unlock(&prg->philo[j].mutex_alive);
 	}
-	my_sleep(800);
+	usleep(800);
 	talk(&prg->philo[i], DIE);
 }

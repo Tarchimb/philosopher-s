@@ -6,7 +6,7 @@
 /*   By: tarchimb <tarchimb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 15:45:00 by tarchimb          #+#    #+#             */
-/*   Updated: 2022/03/09 12:52:57 by tarchimb         ###   ########.fr       */
+/*   Updated: 2022/03/10 10:08:02 by tarchimb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int		parsing(int argc, char **argv, t_prg *prg);
 int		print_stderror(int error, char *s1);
 void	ft_free(void **content);
 long	new_time(struct timeval start);
-void	my_sleep(int to_sleep);
+void	my_sleep(t_philo *philo, int to_sleep);
 int		is_died(t_prg *prg, int i);
 int		alive(t_prg *prg);
 int		is_alive(t_philo *philo);

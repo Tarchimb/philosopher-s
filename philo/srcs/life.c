@@ -6,7 +6,7 @@
 /*   By: tarchimb <tarchimb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 15:42:57 by tarchimb          #+#    #+#             */
-/*   Updated: 2022/03/09 13:15:51 by tarchimb         ###   ########.fr       */
+/*   Updated: 2022/03/10 09:55:51 by tarchimb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	alive(t_prg *prg)
 		if (i == prg->numbers_of_philo)
 		{
 			i = 0;
-			usleep (100);
+			usleep(100);
 		}
 	}
 	i = -1;

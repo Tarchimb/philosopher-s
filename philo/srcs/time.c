@@ -6,7 +6,7 @@
 /*   By: tarchimb <tarchimb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 16:35:55 by tarchimb          #+#    #+#             */
-/*   Updated: 2022/03/09 13:02:08 by tarchimb         ###   ########.fr       */
+/*   Updated: 2022/03/10 10:59:21 by tarchimb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,15 @@
 /*
 	my_sleep is used for a better accurency of the sleeping time of the program
 */
-void	my_sleep(int to_sleep)
+void	my_sleep(t_philo *philo, int to_sleep)
 {
 	struct timeval	start_time;
-	int				i;
 
-	i = 2;
+	pthread_mutex_lock(&philo->mutex_last_meal);
+	if (philo->time_to_die < (philo->time_to_sleep
+			+ new_time(philo->last_meal)))
+		to_sleep = (philo->time_to_die - new_time(philo->last_meal)) * 1000;
+	pthread_mutex_unlock(&philo->mutex_last_meal);
 	gettimeofday(&start_time, NULL);
 	usleep(to_sleep * 0.95);
 	while (new_time(start_time) < (to_sleep / 1000))

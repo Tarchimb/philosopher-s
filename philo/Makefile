@@ -13,7 +13,7 @@ SRCS_DIR	=	srcs
 INCLUDES	=	./includes/philo.h					\
 
 CC			= 	gcc
-CFLAGS		= 	-Wall -Wextra -Werror #-fsanitize=thread
+CFLAGS		= 	-Wall -Wextra -Werror
 
 LIBINCLUDES	=	-Iincludes 
 
@@ -29,7 +29,7 @@ MKDIR		=	mkdir -p
 
 all:		${EXEC}
 
-${OBJS_DIR}/%.o: 	${SRCS_DIR}/%.c	${INCLUDES} $(OBJDIRS)
+${OBJS_DIR}/%.o: 	${SRCS_DIR}/%.c	${INCLUDES} $(OBJDIRS) Makefile
 			${MKDIR} $(@D)
 			${CC} ${CFLAGS} ${LIBINCLUDES} -c $< -o $@
 
@@ -37,7 +37,7 @@ $(LIB):		${OBJS} ${INCLUDES}
 			ar rcs ${LIB} ${OBJS}
 
 
-${EXEC}:	${EXEC}.c ${LIB} Makefile
+${EXEC}:	${EXEC}.c ${LIB}
 			$(CC) ${CFLAGS} ${LIBINCLUDES} ${EXEC}.c ${EXECINCLUDES} ${LIB} -o ${EXEC}  
 
 clean:
