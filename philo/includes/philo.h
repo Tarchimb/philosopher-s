@@ -6,7 +6,7 @@
 /*   By: tarchimb <tarchimb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 15:45:00 by tarchimb          #+#    #+#             */
-/*   Updated: 2022/03/10 10:08:02 by tarchimb         ###   ########.fr       */
+/*   Updated: 2022/03/15 09:23:15 by tarchimb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdlib.h>
 # include <pthread.h>
 # include <sys/time.h>
+# include <stdbool.h>
 
 # define TRUE 1
 # define FALSE 0
@@ -27,6 +28,12 @@
 # define DIE 3
 # define FORK 4
 
+typedef struct s_fork
+{
+	bool			is_available;
+	pthread_mutex_t	mutex_fork;
+}	t_fork;
+
 typedef struct s_philo
 {
 	pthread_t		philo;
@@ -35,25 +42,21 @@ typedef struct s_philo
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				numbers_of_eats_needed;
-	int				number_of_philo;
-	int				alive;
-	pthread_mutex_t	fork;
-	pthread_mutex_t	*left_fork;
-	pthread_mutex_t	*right_fork;
-	pthread_mutex_t	mutex_numbers_of_eats_needed;
-	pthread_mutex_t	mutex_alive;
-	pthread_mutex_t	mutex_last_meal;
-	pthread_mutex_t	mutex_talk;
+	int				got_forks;
+	bool			*alive;
+	t_fork			left_fork;
+	t_fork			*right_fork;
+	pthread_mutex_t	*mutex_alive;
 	struct timeval	last_meal;
-	struct timeval	end;
 	struct timeval	start;
 }	t_philo;
 
 typedef struct s_prg
 {
-	t_philo	*philo;
-	int		time_to_die;
-	int		numbers_of_philo;
+	t_philo			*philo;
+	bool			alive;
+	int				numbers_of_philo;
+	pthread_mutex_t	mutex_alive;
 }	t_prg;
 
 /*****************Parsing******************/
@@ -67,7 +70,6 @@ void	ft_free(void **content);
 long	new_time(struct timeval start);
 void	my_sleep(t_philo *philo, int to_sleep);
 int		is_died(t_prg *prg, int i);
-int		alive(t_prg *prg);
 int		is_alive(t_philo *philo);
 
 /******************Action*******************/
@@ -82,7 +84,7 @@ void	talk(t_philo *philo, int msg);
 /***********libft function's***************/
 
 int		ft_atoi(const char *nptr);
-int		ft_isdigit(int c);
+bool	ft_isdigit(int c);
 int		ft_putstr_fd(char *s, int fd);
 int		ft_strlen(const char *s);
 

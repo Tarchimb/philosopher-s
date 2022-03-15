@@ -6,7 +6,7 @@
 /*   By: tarchimb <tarchimb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 14:15:15 by tarchimb          #+#    #+#             */
-/*   Updated: 2022/03/09 07:23:16 by tarchimb         ###   ########.fr       */
+/*   Updated: 2022/03/12 00:12:14 by tarchimb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,11 @@ int	ft_atoi(const char *nptr)
 	return (nb);
 }
 
-int	ft_isdigit(int c)
+bool	ft_isdigit(int c)
 {
 	if (c >= 48 && c <= 57)
-		return (1);
-	else
-		return (0);
+		return (true);
+	return (false);
 }
 
 int	ft_putstr_fd(char *s, int fd)

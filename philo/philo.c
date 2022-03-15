@@ -6,7 +6,7 @@
 /*   By: tarchimb <tarchimb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 21:53:36 by tarchimb          #+#    #+#             */
-/*   Updated: 2022/03/09 07:28:03 by tarchimb         ###   ########.fr       */
+/*   Updated: 2022/03/15 09:13:21 by tarchimb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(int argc, char **argv)
 	int		error;
 
 	if (argc < 5 || argc > 6)
-		return (printf("Syntax error\n"));
+		return (print_stderror(0, "Syntax error"));
 	error = parsing(argc, argv, &prg);
 	if (error == 0 || error == -1)
 	{
