@@ -21,10 +21,9 @@ The simulation will stop if a philosopher die, or if each philosopher eats _numb
 
 to launch it :
 
-
 `./philo [number_of_philo][time_to_die_in_ms][time_to_eat_in_ms][time_to_sleep_in_ms][number_of_eats_needed(optionnal)]`
 ## Screenshots
-![launch](./img/savescreen.gif)
+<img src="./img/savescreen.gif" width="700" height="500" />
 ## Project status
 The project is actually finished.
 ## Room for improvement
